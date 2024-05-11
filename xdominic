@@ -1,0 +1,382 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("🤑bricky clan🤑", "BloodTheme")
+
+--Main
+local Main = Window:NewTab("Main")
+local MainSection = Main:NewSection("Main")
+
+
+MainSection:NewButton("Fly", "makes you Fly", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
+end)
+
+MainSection:NewButton("crash server", "put a text and spectate and spam the crash buttion", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/sauce-boss01/prison-life-crasher/main/crasher", true))()
+end)
+
+MainSection:NewButton("flips", "makes you do gymnastics", function()
+    loadstring(game:HttpGet('https://pastebin.com/raw/yjxXnxbS'))()
+end)
+
+MainSection:NewToggle("Super-Human", "go superfast and jump rlly high", function(state)
+    if state then
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 120
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 200
+    else
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+    end
+end)
+
+--Local Player
+local Player = Window:NewTab("Local Player")
+local PlayerSection = Player:NewSection("player")
+
+PlayerSection:NewSlider("WalkSpeed", "makes you go fast or slow", 500, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+end)
+
+PlayerSection:NewSlider("JumpPower", "makes you jump high", 500, 50, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+end)
+
+PlayerSection:NewButton("reset ws/jp", "resets to all defaults", function()
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+end)
+
+PlayerSection:NewButton("cussing", "bypasses chat", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Synergy-Networks/products/main/BetterBypasser/loader.lua",true))()
+end)
+
+PlayerSection:NewButton("chat spy", "spy one somebody", function()
+    --This script reveals ALL hidden messages in the default chat
+ 
+enabled = true --chat "/spy" to toggle!
+spyOnMyself = true --if true will check your messages too
+public = false --if true will chat the logs publicly (fun, risky)
+publicItalics = true --if true will use /me to stand out
+privateProperties = { --customize private logs
+	Color = Color3.fromRGB(0,255,255); 
+	Font = Enum.Font.SourceSansBold;
+	TextSize = 18;
+}
+ 
+ 
+local StarterGui = game:GetService("StarterGui")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer or Players:GetPropertyChangedSignal("LocalPlayer"):Wait() or Players.LocalPlayer
+local saymsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
+local getmsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering")
+local instance = (_G.chatSpyInstance or 0) + 1
+_G.chatSpyInstance = instance
+ 
+local function onChatted(p,msg)
+	if _G.chatSpyInstance == instance then
+		if p==player and msg:lower():sub(1,4)=="/spy" then
+			enabled = not enabled
+			wait(0.3)
+			privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+			StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+		elseif enabled and (spyOnMyself==true or p~=player) then
+			msg = msg:gsub("[\n\r]",''):gsub("\t",' '):gsub("[ ]+",' ')
+			local hidden = true
+			local conn = getmsg.OnClientEvent:Connect(function(packet,channel)
+				if packet.SpeakerUserId==p.UserId and packet.Message==msg:sub(#msg-#packet.Message+1) and (channel=="All" or (channel=="Team" and public==false and Players[packet.FromSpeaker].Team==player.Team)) then
+					hidden = false
+				end
+			end)
+			wait(1)
+			conn:Disconnect()
+			if hidden and enabled then
+				if public then
+					saymsg:FireServer((publicItalics and "/me " or '').."{SPY} [".. p.Name .."]: "..msg,"All")
+				else
+					privateProperties.Text = "{SPY} [".. p.Name .."]: "..msg
+					StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+				end
+			end
+		end
+	end
+end
+ 
+for _,p in ipairs(Players:GetPlayers()) do
+	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+end
+Players.PlayerAdded:Connect(function(p)
+	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+end)
+privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+if not player.PlayerGui:FindFirstChild("Chat") then wait(3) end
+local chatFrame = player.PlayerGui.Chat.Frame
+chatFrame.ChatChannelParentFrame.Visible = true
+chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
+end)
+
+MainSection:NewButton("noclip", "go trw walls", function()
+    local StealthMode = true -- If game has an anticheat that checks the logs
+ 
+local Indicator
+ 
+if not StealthMode then
+    local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
+    print("NOCLIP: Press Q to Activate")
+    Indicator = Instance.new("TextLabel", ScreenGui)
+    Indicator.AnchorPoint = Vector2.new(0, 1)
+    Indicator.Position = UDim2.new(0, 0, 1, 0)
+    Indicator.Size = UDim2.new(0, 200, 0, 50)
+    Indicator.BackgroundTransparency = 1
+    Indicator.TextScaled = true
+    Indicator.TextStrokeTransparency = 0
+    Indicator.TextColor3 = Color3.new(0, 0, 0)
+    Indicator.TextStrokeColor3 = Color3.new(1, 1, 1)
+    Indicator.Text = "Noclip: Enabled"
+end
+ 
+local noclip = true
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+ 
+local mouse = player:GetMouse()
+ 
+mouse.KeyDown:Connect(function(key)
+    if key == "q" then
+        noclip = not noclip
+ 
+        if not StealthMode then
+            Indicator.Text = "Noclip: " .. (noclip and "Enabled" or "Disabled")
+        end
+    end
+end)
+ 
+while true do
+    player = game.Players.LocalPlayer
+    character = player.Character
+ 
+    if noclip then
+        for _, v in pairs(character:GetDescendants()) do
+            pcall(function()
+                if v:IsA("BasePart") then
+                    v.CanCollide = false
+                end
+            end)
+        end
+    end
+ 
+    game:GetService("RunService").Stepped:wait()
+end
+end)
+
+MainSection:NewButton("walk on walls", "bruh do i rlly need to explain that", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/sinret/rbxscript.com-scripts-reuploads-/main/WalkOnWalls", true))()
+end)
+
+MainSection:NewButton("inf jump", "jump alot", function()
+    local infjmp = true
+game:GetService("UserInputService").jumpRequest:Connect(function()
+    if infjmp then
+        game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass"Humanoid":ChangeState("Jumping")
+    end
+end)
+end)
+
+MainSection:NewButton("made by d airsoft", "bruh do i rlly need to explain that", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/sinret/rbxscript.com-scripts-reuploads-/main/WalkOnWalls", true))()
+end)
+
+--LocalGames
+local Games = Window:NewTab("Games")
+local GamesSection = Games:NewSection("Games")
+
+GamesSection:NewButton("cdt", "car dealership tycoon", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Marco8642/science/main/car%20dealer", true))()
+end)
+
+GamesSection:NewButton("arsenal", "arsenal", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Infinity2346/Tect-Menu/main/Arsenalscript.txt"))()
+end)
+
+GamesSection:NewButton("bladeball", "bb", function()
+    loadstring(game:HttpGet("https://github.com/SadlekAski/Scripts/raw/main/Blade%20Ball/Equip%20any%20ability.lua"))()
+end)
+
+GamesSection:NewButton("mm2", "mm2", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/KidichiHB/Kidachi/main/Scripts/MM2_V2"))()
+end)
+
+
+GamesSection:NewButton("prison life", "prison life", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/GwnStefano/NexusHub/main/Main", true))()
+end)
+
+GamesSection:NewButton("blox fruits", "bf", function()
+    loadstring(game:HttpGet("https://rasputin-bf.glitch.me/bloxfruits.lua"))()
+end)
+
+GamesSection:NewButton("doors👁️", "script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/VaniaPerets/FolderGui-FolderHub/main/loader.lua", true))()
+end)
+
+GamesSection:NewButton("nothing here", "daddy", function()
+    loadstring(game:HttpGet"https://pastebin.com/raw/08rR3ie9")()
+end)
+
+--Scripts
+local Scripts = Window:NewTab("Scripts")
+local ScriptsSection = Scripts:NewSection("Scripts")
+
+ScriptsSection:NewButton("btools", "tools", function()
+    loadstring(game:HttpGet(('https://raw.githubusercontent.com/0Ben1/fe/main/Fe%20Btools%20R6%20and%20R15%20V5%20by%20Rouxhaver'),true))()
+end)
+
+ScriptsSection:NewButton("doll ;only works in rag doll;", "gui", function()
+    loadstring(game:HttpGet(('https://raw.githubusercontent.com/0Ben1/sushi/main/X'),true))()
+end)
+
+ScriptsSection:NewButton("Chat spoofer", "Lets you chat for othe players", function()
+    loadstring(game:HttpGet(('https://pastebin.com/raw/djBfk8Li'),true))()
+end)
+
+ScriptsSection:NewButton("sky hub", "hubs", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/yofriendfromschool1/Sky-Hub/main/FE%20Trolling%20GUI.luau"))()
+end)
+
+ScriptsSection:NewButton("gyattt and b00bs", "sus", function()
+    (getgenv and getgenv() or _G or shared).BB_Settings = {
+        Breast = true,
+        BreastPhysics = { Target = 5, Speed = 10, Damper = 0.2 },
+        BreastSize = 1,
+        Cheeks = true,
+        CheeksPhysics = { Target = 3, Speed = 10, Damper = 0.1 },
+        CheeksSize = 1,
+        Collisions = false,
+        ForceAllRigs = false,
+        Only_Others = false,
+        Simulate_Physics_On_LocalPlayer_Only = false,
+        }
+        --ForceAllRigs is basically forcing the changes on all humanoids that it finds
+        --[[
+          Originally Created by:
+          'With love and lust from "V" / Ukiyo'
+          Re-written & Optimized by:
+          Deuces
+        ]]
+        loadstring(
+        game:HttpGet("https://gist.githubusercontent.com/htt-py/92db22eeefad0042a6da9117501ad827/raw/BBies.luau", true)
+        )()
+end)
+
+--LocalTools
+local Tools = Window:NewTab("Tools")
+local ToolsSection = Tools:NewSection("Tools")
+
+ToolsSection:NewButton("teleport tool", "click and u teleport", function()
+    mouse = game.Players.LocalPlayer:GetMouse()
+tool = Instance.new("Tool")
+tool.RequiresHandle = false
+tool.Name = "Click Teleport"
+tool.Activated:connect(function()
+local pos = mouse.Hit+Vector3.new(0,2.5,0)
+pos = CFrame.new(pos.X,pos.Y,pos.Z)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+end)
+tool.Parent = game.Players.LocalPlayer.Backpack
+end)
+
+--LocalFunny
+local Funny = Window:NewTab("Funny")
+local FunnySection = Funny:NewSection("Funny")
+
+FunnySection:NewButton("Send  Player To Mars", "fling", function()
+    loadstring(game:HttpGet("https://paste.ee/r/NTtmf", true))()
+end)
+
+FunnySection:NewButton("very cool script", "cool", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/yeerma/1/main/the_greatest_script_ever_made'))()
+end)
+
+FunnySection:NewButton("jumpscare", "scare a player", function()
+    function e(p,y) 
+        local gui = Instance.new("ScreenGui")
+        gui.DisplayOrder = 0
+        gui.ResetOnSpawn = false
+        local sound = Instance.new("Sound",gui)
+        sound.SoundId = "rbxassetid://165224484"
+        sound.Volume = 0
+        sound.Looped = true
+        local aaaa = Instance.new("DistortionSoundEffect",sound)
+        aaaa.Level = 10
+        local image = Instance.new("ImageLabel",gui)
+        image.Image = "rbxassetid://211463112"
+        image.Size = UDim2.new(0,0,0,0)
+        image.Position = UDim2.new(0.5,0,0.5,0)
+        image.BackgroundTransparency = 1
+        image.ImageColor3 = Color3.new(0,0,0)
+        image.ZIndex = 100
+        local background = Instance.new("Frame",gui)
+        background.Size = UDim2.new(1,0,1,0)
+        background.BackgroundColor3 = Color3.new()
+        for _,v in pairs(game.Players:GetChildren()) do
+            local gui2 = gui:Clone()
+            local intense = 0
+            local intense2 = 10
+            gui2.Parent = v.PlayerGui
+            gui2.Sound:Play()
+            spawn(function()
+                while wait(math.random() / 5) do
+                    gui2.Sound.Pitch = (math.random() * intense2) + 1.5
+                    gui2.Sound.Volume = intense * 6
+                end
+            end)
+            spawn(function()
+                while wait() do
+                    gui2.ImageLabel.ImageColor3 = Color3.fromHSV(math.random(),1,intense * (math.random() / 2))
+                    gui2.ImageLabel.Size = UDim2.new(0,intense * 800,0,intense * 800)
+                    gui2.ImageLabel.Position = UDim2.new(0.5,intense * -400,0.5,intense * -400)
+                end
+            end)
+            spawn(function()
+                intense = 1
+                wait(0.2)
+                --for i=1,30 do
+                --  wait()
+                    --  intense = 1 - (i/30)
+                --end
+                --v:Kick("9840285")
+            end)
+            spawn(function()
+                for i=0,300 do
+                    wait()
+                    intense2 = 10 - ((i/300) * 5.5)
+                end
+            end)
+            if not y then
+                spawn(function()
+                    wait(0.2)
+                    gui2:Destroy()
+                end)
+            else
+                game.Debris:AddItem(gui2,20)
+            end
+        end
+    end
+    e(nil,true)
+end)
+
+FunnySection:NewButton("invis", "go invisable", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/GhostPlayer352/Test4/main/Invisible%20Gui'))()
+end)
+
+--LocalAdmin
+local Admin = Window:NewTab("Admin")
+local AdminSection = Admin:NewSection("Admin")
+
+AdminSection:NewButton("inf yield", "admin pannel", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+end)
+
+AdminSection:NewButton("tiger admin", "admin pannel", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/dalloc2/Roblox/main/TigerAdmin.lua"))()
+end)
+
